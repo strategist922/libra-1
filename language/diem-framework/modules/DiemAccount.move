@@ -629,8 +629,6 @@ module DiemAccount {
         let new_signer = create_signer(new_account_address);
 
         assert(exists_at(new_account_address), Errors::not_published(EACCOUNT));
-        // assert(TowerState::is_init(new_account_address), 120104);
-        // verifies the VDF proof, since we are not calling TowerState init.
 
         // if the account already has a tower started just verify the block zero submitted
         if (TowerState::is_init(new_account_address)) {
