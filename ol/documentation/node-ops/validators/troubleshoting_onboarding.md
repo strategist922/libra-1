@@ -2,6 +2,7 @@
 
 ## Issues
 1. [Validator logs show "Too many open files" or "File descriptor limit exceeded" error and tower app is stopped](#issue-1)
+2. [diem-node warn: Epochs not consecutive](#issue-5)
 2. [Tower start: Epochs not consecutive](#issue-2)
 3. [DB should open](#issue-3)
 4. [Tower start: EOF error](#issue-4)
@@ -30,6 +31,15 @@ If you are running in `systemd`:
 
 *Note: This is until we figure out a better way not to reach the limit.*
 
+
+## <a id="issue-5"></a>  Issue: Diem-node not voting in consensus, and a warning in logs "epochs are not consecutive".
+
+The "waypoint" that diem-node is using from key_store.json may not be correct or deprecated. There were bugs in previous `ol restore` functionality that would cause this. It's fixed since v5.0.4
+
+**Solution:**
+If your node is out of sync you may as well do an `ol restore`, be sure that your binaries are from v5.0.4 or later. This will also correct the waypoints.
+
+Alternatively you can manually edit the key_store.json file for the "waypoint" field, and replace the "value" sub field. Note that your file may have conflicting namespacing, and you may have 2 waypoint records. The correct namespace used is `<account>-oper/waypoint`. If your key_store file cointains another `../waypoint` field it's safe to remove.
 
 ## <a id="issue-2"></a>  Issue: Epochs are not consecutive
 ### Tower app starts but throws error on transaction: Failed to get state proof with error...Epochs are not consecutive
