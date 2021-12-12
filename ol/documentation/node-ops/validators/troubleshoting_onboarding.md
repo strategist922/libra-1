@@ -13,6 +13,16 @@ The validator is not voting or syncing and the file descriptor limit exceeded er
 
 **Temporary Solution:** This is an issue with the file descriptor limit being exceeded. 
 
+If you are running diem-node in `tmux` or `screen`:
+
+Change the file discriptor limit to (a much higher than is rational) amount in your shell.
+
+```
+ulimit -n 100000
+
+```
+
+If you are running in `systemd`:
 1. Go to the **diem-node.service** template you are using for starting the node. 
 2. Update **LimitNOFILE=200000**
 3. Restart node: **make daemon**
@@ -69,5 +79,4 @@ Message: Error EOF while parsing a value
 Location: tower/src/block.rs:....
 ```
 **Solution:** Check if the last block proof created is empty. If so, remove the file and start the tower app again. This is after the node is caught up on the network. 
-
 
